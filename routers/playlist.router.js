@@ -8,10 +8,10 @@ const {
   getAllPlaylists,
 } = require("../controllers/playlist.controller");
 
-router.get("/", getAllPlaylists);
-router.post("/new", addNewPlaylist);
-router.delete("/delete/:playlistId", deletePlaylist);
-router.post("/:playlistId/add/:videoId", addVideoToPlaylist);
-router.post("/:playlistId/remove/:videoId", removeVideoFromPlaylist);
+router.route("/").get(getAllPlaylists);
+router.route("/new").post(addNewPlaylist);
+router.route("/delete/:playlistId").delete(deletePlaylist);
+router.route("/:playlistId/add/:videoId").post(addVideoToPlaylist);
+router.route("/:playlistId/remove/:videoId").post(removeVideoFromPlaylist);
 
 module.exports = router;
