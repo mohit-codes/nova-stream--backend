@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const User = require("../models/user.model");
+const Playlist = require("../models/playlist.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -66,7 +67,34 @@ const signupUserAndSendCredentials = async (req, res) => {
   }
 };
 
+const fetchUserData = async (req, res) => {
+  try {
+    const user = req.user;
+    const { playlists } = await User.findById(user._id).populate({
+      path: "playlists",
+      model: Playlist,
+    });
+
+    if (user) {
+      return res.json({
+        success: true,
+        liked: user.liked || [],
+        playlists: playlists,
+        history: user.history,
+      });
+    }
+    return res.json({
+      success: false,
+      message: "User not found!",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
+  fetchUserData,
   loginUserAndSendCredentials,
   signupUserAndSendCredentials,
 };

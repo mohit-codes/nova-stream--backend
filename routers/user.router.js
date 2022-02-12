@@ -3,6 +3,7 @@ const router = Router();
 const {
   loginUserAndSendCredentials,
   signupUserAndSendCredentials,
+  fetchUserData,
 } = require("../controllers/user.controller");
 const {
   getAllLikedVideos,
@@ -19,6 +20,7 @@ const authenticate = require("../middleware/authenticate");
 
 router.route("/login").post(loginUserAndSendCredentials);
 router.route("/signup").post(signupUserAndSendCredentials);
+router.route("/user-data").get(authenticate, fetchUserData);
 
 router.route("/liked").get(authenticate, getAllLikedVideos);
 router.route("/liked/add/:videoId").post(authenticate, addToLikedVideos);
