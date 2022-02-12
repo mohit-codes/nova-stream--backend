@@ -1,12 +1,13 @@
 const Playlist = require("../models/playlist.model");
-
+const Video = require("../models/video.model");
 const getAllPlaylists = async (req, res) => {
   try {
     const user = req.user;
     let playlists = [];
-    playlists = await Playlist.find({ _id: { $in: user.playlists } }).populate(
-      "videos"
-    );
+    playlists = await Playlist.find({ _id: { $in: user.playlists } }).populate({
+      path: "videos",
+      model: Video,
+    });
     return res.json({ success: true, playlists: playlists });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -44,7 +45,8 @@ const addVideoToPlaylist = async (req, res) => {
   try {
     const { playlistId, videoId } = req.params;
     const playlist = await Playlist.findById(playlistId);
-    if (!playlist.videos.includes(videoId)) {
+
+    if (!playlist.videos.some((id) => id !== videoId)) {
       playlist.videos.push(videoId);
       await playlist.save();
       return res.json({ success: true, message: "Video added to playlist" });

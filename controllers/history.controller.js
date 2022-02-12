@@ -1,9 +1,13 @@
 const User = require("../models/user.model");
+const Video = require("../models/video.model");
 
 const getHistory = async (req, res) => {
   try {
     const user = req.user;
-    const { history } = await User.findById(user._id).populate("history");
+    const { history } = await User.findById(user._id).populate({
+      path: "history",
+      model: Video,
+    });
     return res.json({ success: true, history: history });
   } catch (error) {
     return res.json({ success: false, message: error.message });
