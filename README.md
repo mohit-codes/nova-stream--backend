@@ -6,8 +6,9 @@ Backend using ExpressJS connected to MongoDB through Mongoose.
   
 ### User
 
-- POST /users/login - Takes username and password as a parameter and returns token and user.
-- POST /users/signup - Providing name, password, and unique email would add a new user into the database.
+- POST /user/login - Takes username and password as a parameter and returns token and user.
+- POST /user/signup - Providing name, password, and unique email would add a new user into the database.
+- GET /user/user-data - fetch user's data.
 - GET  /user/liked -  Fetches all videos liked by user.
 - POST /user/liked/add/:videoId - adds video to liked videos.
 - PUT  /user/liked/remove/:videoId - removes video from liked videos.
